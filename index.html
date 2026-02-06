@@ -23,7 +23,7 @@ body {
   grid-template-columns: 1fr 1fr;
   z-index: 0;
 }
-.bg-left { background: url("IMG_11.jpg") center / cover no-repeat; }
+.bg-left { background: url("IMG_1.jpg") center / cover no-repeat; }
 .bg-right { background: url("IMG_2.jpg") center / cover no-repeat; }
 
 .overlay {
@@ -33,6 +33,17 @@ body {
   z-index: 1;
 }
 
+/* VIDEO */
+#bgVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  z-index: 2;
+}
+
 /* HEARTS */
 .heart {
   position: fixed;
@@ -40,7 +51,7 @@ body {
   font-size: 22px;
   animation: floatUp linear infinite;
   opacity: 0.85;
-  z-index: 2;
+  z-index: 4;
 }
 
 @keyframes floatUp {
@@ -62,7 +73,7 @@ body {
   text-align: center;
   color: white;
   box-shadow: 0 20px 60px rgba(0,0,0,.5);
-  z-index: 3;
+  z-index: 5;
 }
 
 h1 {
@@ -110,24 +121,22 @@ button {
   border: 1px solid rgba(255,255,255,.3);
 }
 
-/* YES RESULT */
-.yay {
+/* LOVE TEXT (BOTTOM) */
+#loveText {
+  position: fixed;
+  bottom: 6%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  z-index: 6;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
   display: none;
-  margin-top: 20px;
-  font-size: 26px;
-  font-weight: 900;
-  color: #ffd1e2;
 }
 
-/* FULLSCREEN VIDEO */
-#loveVideo {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  display: none;
-  z-index: 10;
+#loveText div {
+  margin-top: 8px;
 }
 </style>
 </head>
@@ -140,6 +149,11 @@ button {
 </div>
 <div class="overlay"></div>
 
+<!-- VIDEO (LOOPS FOREVER) -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="VIDEO.mp4" type="video/mp4">
+</video>
+
 <div class="card" id="card">
   <h1>hi my lovely darling</h1>
   <p>you always say no to me , but i wont let you say no this time</p>
@@ -151,24 +165,20 @@ button {
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
   </div>
-
-  <div class="yay" id="yayText">
-    Better be that way 💖<br>
-    ily my mucho bayb
-  </div>
 </div>
 
-<!-- VIDEO -->
-<video id="loveVideo" playsinline loop>
-  <source src="love.mp4" type="video/mp4">
-</video>
+<!-- LOVE TEXT -->
+<div id="loveText">
+  <div>better be that way ❤️</div>
+  <div>ily my mucho bayb</div>
+</div>
 
 <script>
 /* HEARTS */
 setInterval(() => {
   const h = document.createElement("div");
   h.className = "heart";
-  h.textContent = "💕";
+  h.textContent = "❤️";
   h.style.left = Math.random() * 100 + "vw";
   h.style.animationDuration = (4 + Math.random() * 4) + "s";
   document.body.appendChild(h);
@@ -178,9 +188,9 @@ setInterval(() => {
 /* BUTTON LOGIC */
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-const yayText = document.getElementById("yayText");
 const card = document.getElementById("card");
-const video = document.getElementById("loveVideo");
+const video = document.getElementById("bgVideo");
+const loveText = document.getElementById("loveText");
 
 let noClicks = 0;
 
@@ -191,7 +201,6 @@ const noTexts = [
   "enough now click on yes",
   "how long will u try da",
   "i told u , i wont let u say no"
-  "sayonaaaraaaa"
 ];
 
 noBtn.onclick = () => {
@@ -213,8 +222,8 @@ noBtn.onclick = () => {
 yesBtn.onclick = () => {
   card.style.display = "none";
   video.style.display = "block";
-  video.muted = false;
   video.play();
+  loveText.style.display = "block";
 };
 </script>
 
